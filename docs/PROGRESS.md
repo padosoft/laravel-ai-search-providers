@@ -6,8 +6,8 @@ Tracker for the multi-PR effort that extracts the search layer from `padosoft/pr
 
 | # | PR | Branch | Status |
 |---|---|---|---|
-| A1 | Scaffold package | `feat/scaffold` | 🟡 in progress |
-| A2 | Contracts + DTOs | `feat/contracts-dtos` | ⬜ pending |
+| A1 | Scaffold package | `feat/scaffold` | ✅ merged (PR #1) |
+| A2 | Contracts + DTOs | `feat/contracts-dtos` | 🟡 in progress |
 | A3 | Manager + Abstract + Fake + factories | `feat/manager-and-abstract` | ⬜ pending |
 | A4 | 6 live providers (Brave, Tavily, Exa, Firecrawl, WebSearchAPI, DuckDuckGo) | `feat/providers` | ⬜ pending |
 | A5 | Persistence: Eloquent model + migration + repository | `feat/persistence` | ⬜ pending |
@@ -48,8 +48,27 @@ In progress. Completed sub-tasks:
 - Created `README.md` stub (badges + under construction banner) and `CHANGELOG.md` skeleton.
 - Created `docs/PROGRESS.md` (this file) and `docs/LESSON.md`.
 
-Gates to verify before push:
+Gates verified:
 
-- `composer install` succeeds.
-- `vendor/bin/phpunit --testsuite Unit` PASS (3 tests).
+- `composer install` succeeded locally.
+- `vendor/bin/phpunit --testsuite Unit` PASS — 3 tests, 7 assertions.
 - `composer validate --strict --no-check-publish` PASS.
+- CI green on PHP 8.3 + 8.4 (after a placeholder `tests/Feature/.gitkeep` and `tests/E2E/.gitkeep` were added — PHPUnit 12 requires every declared testsuite directory to exist).
+- Merged as PR #1.
+
+### A2 — Contracts + DTOs
+
+In progress. Completed sub-tasks:
+
+- `src/Contracts/SearchProviderInterface.php` (renamed from `ProductImageSearchProviderInterface`) — `searchImages`, `searchWeb`, `supportsImageSearch`, `supportsSiteFilter`.
+- `src/Contracts/SearchProviderFactoryInterface.php`.
+- `src/Contracts/SearchProviderConfigRepositoryInterface.php`.
+- `src/Contracts/SearchEventLoggerInterface.php`.
+- `src/Data/SearchQueryData.php` (renamed from `ProductImageSearchQueryData`).
+- `src/Data/SearchResult.php` (renamed from `ProductImageSearchResult`).
+- `src/Data/SearchResultCollection.php` (renamed from `ProductImageSearchResultCollection`).
+- `src/Data/SearchProviderDefinition.php`.
+- `src/Data/SearchProviderExecutionResult.php`.
+- 18 new unit tests across `tests/Unit/Data/{SearchQueryData,SearchResult,SearchResultCollection,SearchProviderDefinition}Test.php`.
+
+Gate: `vendor/bin/phpunit --testsuite Unit,Feature,E2E` PASS — 21 tests, 66 assertions.
