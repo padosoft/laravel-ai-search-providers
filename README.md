@@ -7,6 +7,8 @@
 [![License](https://img.shields.io/packagist/l/padosoft/laravel-ai-search-providers.svg?style=flat-square)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/padosoft/laravel-ai-search-providers/ci.yml?branch=main&label=tests&style=flat-square)](https://github.com/padosoft/laravel-ai-search-providers/actions/workflows/ci.yml)
 
+![Laravel AI Search Providers — 7 providers, 1 interface, 0 boilerplate](resources/laravel-ai-search-providers-banner.png)
+
 **One Laravel-native contract over Brave, Tavily, Exa.ai, Firecrawl, WebSearchAPI.ai and DuckDuckGo.** Plug any AI-friendly search API into your app in three commands. Swap providers with a config row. Test offline with the bundled fake provider, then go live with `Http::fake`-driven unit tests and an opt-in real-API E2E suite.
 
 > 7 providers. 1 interface. 0 boilerplate.
