@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Padosoft\LaravelAiSearchProviders;
 
 use Illuminate\Support\ServiceProvider;
+use Padosoft\LaravelAiSearchProviders\Contracts\SearchEventLoggerInterface;
+use Padosoft\LaravelAiSearchProviders\Contracts\SearchProviderConfigRepositoryInterface;
 use Padosoft\LaravelAiSearchProviders\Contracts\SearchProviderFactoryInterface;
 use Padosoft\LaravelAiSearchProviders\Providers\BraveSearchProvider;
 use Padosoft\LaravelAiSearchProviders\Providers\DuckDuckGoSearchProvider;
@@ -13,6 +15,7 @@ use Padosoft\LaravelAiSearchProviders\Providers\FakeSearchProvider;
 use Padosoft\LaravelAiSearchProviders\Providers\FirecrawlSearchProvider;
 use Padosoft\LaravelAiSearchProviders\Providers\TavilySearchProvider;
 use Padosoft\LaravelAiSearchProviders\Providers\WebSearchApiSearchProvider;
+use Padosoft\LaravelAiSearchProviders\Repositories\EloquentSearchProviderConfigRepository;
 
 final class LaravelAiSearchProvidersServiceProvider extends ServiceProvider
 {
@@ -20,16 +23,17 @@ final class LaravelAiSearchProvidersServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/ai-search-providers.php', 'ai-search-providers');
 
-        $this->app->singleton(SearchProviderManager::class, function ($app): SearchProviderManager {
-            $repository = $app->bound(\Padosoft\LaravelAiSearchProviders\Contracts\SearchProviderConfigRepositoryInterface::class)
-                ? $app->make(\Padosoft\LaravelAiSearchProviders\Contracts\SearchProviderConfigRepositoryInterface::class)
-                : new EmptyConfigRepository();
+        $this->app->bind(
+            SearchProviderConfigRepositoryInterface::class,
+            static fn (): EloquentSearchProviderConfigRepository => new EloquentSearchProviderConfigRepository(),
+        );
 
+        $this->app->singleton(SearchProviderManager::class, function ($app): SearchProviderManager {
             return new SearchProviderManager(
-                repository: $repository,
+                repository: $app->make(SearchProviderConfigRepositoryInterface::class),
                 factories: $this->resolveFactories($app),
-                logger: $app->bound(\Padosoft\LaravelAiSearchProviders\Contracts\SearchEventLoggerInterface::class)
-                    ? $app->make(\Padosoft\LaravelAiSearchProviders\Contracts\SearchEventLoggerInterface::class)
+                logger: $app->bound(SearchEventLoggerInterface::class)
+                    ? $app->make(SearchEventLoggerInterface::class)
                     : null,
             );
         });
@@ -37,9 +41,17 @@ final class LaravelAiSearchProvidersServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        if ((bool) $this->app['config']->get('ai-search-providers.load_migrations', true)) {
+            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        }
+
         $this->publishes([
             __DIR__ . '/../config/ai-search-providers.php' => $this->configPath('ai-search-providers.php'),
         ], 'ai-search-providers-config');
+
+        $this->publishes([
+            __DIR__ . '/../database/migrations' => $this->databasePath('migrations'),
+        ], 'ai-search-providers-migrations');
     }
 
     /**
@@ -105,5 +117,14 @@ final class LaravelAiSearchProvidersServiceProvider extends ServiceProvider
         }
 
         return base_path('config/' . $file);
+    }
+
+    private function databasePath(string $folder): string
+    {
+        if (function_exists('database_path')) {
+            return database_path($folder);
+        }
+
+        return base_path('database/' . $folder);
     }
 }
