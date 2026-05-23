@@ -27,4 +27,11 @@ Initial public release. The package extracts the production-hardened search laye
 - Community-grade README with badges, junior-friendly Quick Start, mermaid architecture diagram, per-provider activation snippets, custom-driver extension guide, configuration reference, contributing guide.
 - Apache-2.0 license.
 
+## [1.0.1] — 2026-05-23
+
+### Added
+
+- Community banner in README (`resources/laravel-ai-search-providers-banner.png`), placed between the badges and the table of contents. Showcases the 7-providers / 1-interface / 0-boilerplate pitch + the SearchProviderManager routing diagram + the Quick Install snippet + the eight feature pillars (priority + fallback, fallback-ready, secrets-safe, test-first, production-ready, Laravel-native).
+
 [1.0.0]: https://github.com/padosoft/laravel-ai-search-providers/releases/tag/v1.0.0
+[1.0.1]: https://github.com/padosoft/laravel-ai-search-providers/releases/tag/v1.0.1
