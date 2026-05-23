@@ -10,8 +10,8 @@ Tracker for the multi-PR effort that extracts the search layer from `padosoft/pr
 | A2 | Contracts + DTOs | `feat/contracts-dtos` | ✅ merged (PR #2) |
 | A3 | Manager + Abstract + Fake + factories | `feat/manager-and-abstract` | ✅ merged (PR #3) |
 | A4 | 6 live providers (Brave, Tavily, Exa, Firecrawl, WebSearchAPI, DuckDuckGo) | `feat/providers` | ✅ merged (PR #4) |
-| A5 | Persistence: Eloquent model + migration + repository | `feat/persistence` | 🟡 in progress |
-| A6 | Community README + live E2E + tag v1.0.0 | `feat/docs-and-live` | ⬜ pending |
+| A5 | Persistence: Eloquent model + migration + repository | `feat/persistence` | ✅ merged (PR #5) |
+| A6 | Community README + live E2E + tag v1.0.0 | `feat/docs-and-live` | 🟡 in progress |
 
 ## Phase B — Re-wire `product-image-discovery` consumer
 
@@ -115,4 +115,20 @@ In progress. Completed sub-tasks:
 - Removed the now-redundant `EmptyConfigRepository` internal helper.
 - `tests/Feature/Persistence/EloquentSearchProviderConfigRepositoryTest.php` — 5 feature tests covering default table name, config-driven override, active+ordered query, constructor override priority, empty-state behavior.
 
-Gate: `vendor/bin/phpunit --testsuite Unit,Feature,E2E` PASS — 64 tests, 170 assertions.
+Gate: `vendor/bin/phpunit --testsuite Unit,Feature,E2E` PASS — 64 tests, 170 assertions. CI green. Merged as PR #5.
+
+### A6 — Live E2E + community README + tag v1.0.0
+
+In progress. Completed sub-tasks:
+
+- `tests/Concerns/ReadsLocalEnv.php` trait that reads keys from process env or the package-local `.env` file.
+- 6 opt-in live E2E tests under `tests/E2E/` — `LiveBraveSearchProviderTest`, `LiveTavilySearchProviderTest`, `LiveExaSearchProviderTest`, `LiveFirecrawlSearchProviderTest`, `LiveWebSearchApiSearchProviderTest`, `LiveDuckDuckGoSearchProviderTest`. Each skips cleanly without the relevant env key. DDG additionally skips on `CI=true` and on 403/429/503 anti-bot responses.
+- `.env.example` documenting every env key with empty values.
+- Community-grade `README.md` with Packagist/PHP/Laravel/license/CI badges, TOC, value proposition, feature bullets, full provider matrix, junior-friendly 5-minute Quick Start using the fake driver, per-provider activation snippets, mermaid architecture diagram, configuration reference, custom-driver extension example (Serper.dev), testing section, BC tips for host apps, roadmap, contributing.
+- `CHANGELOG.md` entry for v1.0.0 covering the full package surface.
+
+Gates verified:
+- `vendor/bin/phpunit --testsuite Unit,Feature,E2E` PASS — 70 tests, 195 assertions, 0 skipped (with all live keys present in local `.env`).
+- All 5 live API providers (Brave, Tavily, Exa, Firecrawl, WebSearchAPI) returned ≥ 1 result on the Nike smoke query against real APIs.
+- DuckDuckGo HTML lite live run returned ≥ 1 result without a key.
+- `composer validate --strict --no-check-publish` PASS.
