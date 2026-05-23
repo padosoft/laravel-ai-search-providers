@@ -7,8 +7,8 @@ Tracker for the multi-PR effort that extracts the search layer from `padosoft/pr
 | # | PR | Branch | Status |
 |---|---|---|---|
 | A1 | Scaffold package | `feat/scaffold` | ✅ merged (PR #1) |
-| A2 | Contracts + DTOs | `feat/contracts-dtos` | 🟡 in progress |
-| A3 | Manager + Abstract + Fake + factories | `feat/manager-and-abstract` | ⬜ pending |
+| A2 | Contracts + DTOs | `feat/contracts-dtos` | ✅ merged (PR #2) |
+| A3 | Manager + Abstract + Fake + factories | `feat/manager-and-abstract` | 🟡 in progress |
 | A4 | 6 live providers (Brave, Tavily, Exa, Firecrawl, WebSearchAPI, DuckDuckGo) | `feat/providers` | ⬜ pending |
 | A5 | Persistence: Eloquent model + migration + repository | `feat/persistence` | ⬜ pending |
 | A6 | Community README + live E2E + tag v1.0.0 | `feat/docs-and-live` | ⬜ pending |
@@ -71,4 +71,21 @@ In progress. Completed sub-tasks:
 - `src/Data/SearchProviderExecutionResult.php`.
 - 18 new unit tests across `tests/Unit/Data/{SearchQueryData,SearchResult,SearchResultCollection,SearchProviderDefinition}Test.php`.
 
-Gate: `vendor/bin/phpunit --testsuite Unit,Feature,E2E` PASS — 21 tests, 66 assertions.
+Gate: `vendor/bin/phpunit --testsuite Unit,Feature,E2E` PASS — 21 tests, 66 assertions. CI green. Merged as PR #2.
+
+### A3 — Manager + Abstract base + Fake + factories
+
+In progress. Completed sub-tasks:
+
+- `src/Providers/AbstractHttpSearchProvider.php` — shared HTTP/parsing helpers (pickUrl, pick, dotGet, extractDomain, normalizeDomain, normalizeInt, normalizeFloat, applySiteFilter, assertHttpClientAvailable).
+- `src/Providers/FakeSearchProvider.php` — deterministic provider for tests/smoke runs. Supports `throw`/`throw_for` failure modes and `supports_image_search`/`supports_site_filter` config overrides.
+- `src/CallableSearchProviderFactory.php` — closure-based factory.
+- `src/SearchProviderManager.php` — depends on `SearchProviderConfigRepositoryInterface` and optional `SearchEventLoggerInterface`. Skips providers that don't support image search or site filter; falls back across active providers in priority order; logs success/failure when a logger is bound.
+- `src/EmptyConfigRepository.php` (internal) — bootstrap-safe stand-in used by the service provider until the Eloquent repository lands in PR A5. Returns no providers so the manager degrades gracefully.
+- `tests/Support/InMemorySearchProviderConfigRepository.php` — test helper.
+- `src/LaravelAiSearchProvidersServiceProvider.php` — extended:
+  - Registers `SearchProviderManager` as singleton with the default `fake` factory installed.
+  - Merges any user-provided factories from `config('ai-search-providers.factories')` on top of the defaults. Accepts closure, callable, FQCN of `SearchProviderFactoryInterface` or already-resolved instance.
+- 11 new unit tests across `tests/Unit/SearchProviderManagerTest.php` (5 scenarios: empty active set, fallback + safe attempts, skip unsupported image search, skip unsupported site filter, raise on missing factory) and `tests/Unit/Providers/FakeSearchProviderTest.php` (6 scenarios).
+
+Gate: `vendor/bin/phpunit --testsuite Unit,Feature,E2E` PASS — 32 tests, 94 assertions.
