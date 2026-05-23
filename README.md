@@ -9,9 +9,9 @@
 
 ![Laravel AI Search Providers — 7 providers, 1 interface, 0 boilerplate](resources/laravel-ai-search-providers-banner.png)
 
-**One Laravel-native contract over Brave, Tavily, Exa.ai, Firecrawl, WebSearchAPI.ai and DuckDuckGo.** Plug any AI-friendly search API into your app in three commands. Swap providers with a config row. Test offline with the bundled fake provider, then go live with `Http::fake`-driven unit tests and an opt-in real-API E2E suite.
+**One Laravel-native contract over Brave, Tavily, Exa.ai, Firecrawl, WebSearchAPI.ai, DuckDuckGo, SearchAPI.io and You.com.** Plug any AI-friendly search API into your app in three commands. Swap providers with a config row. Test offline with the bundled fake provider, then go live with `Http::fake`-driven unit tests and an opt-in real-API E2E suite.
 
-> 7 providers. 1 interface. 0 boilerplate.
+> 9 providers. 1 interface. 0 boilerplate.
 
 ## Table of Contents
 
@@ -51,7 +51,7 @@ It's the search/extraction backbone the [`padosoft/product-image-discovery`](htt
 
 ## Features
 
-- 🔌 **7 providers out of the box** — Brave, Tavily, Exa.ai, Firecrawl, WebSearchAPI.ai, DuckDuckGo (no key), and a deterministic Fake for tests.
+- 🔌 **9 providers out of the box** — Brave, Tavily, Exa.ai, Firecrawl, WebSearchAPI.ai, DuckDuckGo (no key), SearchAPI.io, You.com, and a deterministic Fake for tests.
 - 🧪 **Test-first** — every driver is unit-tested via `Http::fake`. Live E2E suite is opt-in and self-skips when API keys are absent.
 - 🛡️ **Secrets-safe by default** — `api_key` / `api_secret` are encrypted at rest, redacted from logs and execution metadata, never exposed in `toSafeArray()`.
 - 🔄 **Priority + fallback orchestration** — list multiple providers, set priority, the manager tries them in order and falls back on failure or empty results.
@@ -502,6 +502,7 @@ If you're extracting your own search layer onto this package (the way `padosoft/
 - 🧬 Perceptual-hash dedupe utility for image results.
 - 🪙 More drivers as the community asks: Serper.dev, Bing Web Search, Kagi.
 - 🧭 Optional **Vertex AI Search / Agent Search** adapter, shipped as a separate sub-package (e.g. `padosoft/laravel-ai-search-providers-google-vertex`) so consumers that need it pull in the heavier `google/cloud-discoveryengine` SDK only when actually using it. Google Custom Search JSON API was intentionally skipped — it was closed to new customers in 2026 and new Programmable Search Engines can no longer index the full web ([context](https://support.google.com/programmable-search/answer/12397162)).
+- 🎨 Refresh the community banner asset (`resources/laravel-ai-search-providers-banner.png`) to show 9 providers — the current artwork was generated at the v1.0.0 cut and still reads "7 providers".
 
 See `docs/PROGRESS.md` for in-flight work and `docs/LESSON.md` for design notes accumulated during the original extraction.
 
