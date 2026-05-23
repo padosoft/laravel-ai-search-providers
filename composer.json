@@ -1,0 +1,74 @@
+{
+    "name": "padosoft/laravel-ai-search-providers",
+    "description": "Plug-and-play Laravel package exposing a single contract over Brave Search, Tavily, Exa.ai, Firecrawl, WebSearchAPI.ai and DuckDuckGo — the search/extraction backbone for AI agents and product/catalog tooling.",
+    "type": "library",
+    "license": "Apache-2.0",
+    "keywords": [
+        "laravel",
+        "search",
+        "search-api",
+        "ai",
+        "brave",
+        "tavily",
+        "exa",
+        "firecrawl",
+        "websearchapi",
+        "duckduckgo",
+        "agents",
+        "rag",
+        "llm"
+    ],
+    "authors": [
+        {
+            "name": "Lorenzo Padovani",
+            "email": "lorenzo.padovani@padosoft.com",
+            "homepage": "https://github.com/padosoft"
+        }
+    ],
+    "homepage": "https://github.com/padosoft/laravel-ai-search-providers",
+    "support": {
+        "issues": "https://github.com/padosoft/laravel-ai-search-providers/issues",
+        "source": "https://github.com/padosoft/laravel-ai-search-providers"
+    },
+    "require": {
+        "php": "^8.3",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "illuminate/contracts": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/database": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/http": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/support": "^11.0 || ^12.0 || ^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+        "phpunit/phpunit": "^11.0 || ^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Padosoft\\LaravelAiSearchProviders\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Padosoft\\LaravelAiSearchProviders\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Padosoft\\LaravelAiSearchProviders\\LaravelAiSearchProvidersServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-main": "1.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
