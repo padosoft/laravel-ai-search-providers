@@ -64,7 +64,7 @@ It's the search/extraction backbone the [`padosoft/product-image-discovery`](htt
 
 ## Supported providers
 
-Out of the box the package ships **7 search providers** ready to plug in:
+Out of the box the package ships **9 search providers** ready to plug in:
 
 | Provider | Driver | Image search | Site filter | Free tier | Docs |
 |---|---|:-:|:-:|---|---|
@@ -75,6 +75,8 @@ Out of the box the package ships **7 search providers** ready to plug in:
 | Firecrawl | `firecrawl` | ✅ (`sources:[{type:"images"}]`) | ✅ (`includeDomains`) | 500 credits / month | <https://docs.firecrawl.dev> |
 | WebSearchAPI.ai | `websearchapi` | ❌ (web-only) | ✅ (`includeDomains`) | trial credits | <https://websearchapi.ai/docs/search-api> |
 | DuckDuckGo (HTML lite) | `duckduckgo` | ❌ (web-only) | ✅ (`site:`) | no key | <https://duckduckgo.com/html/> |
+| SearchAPI.io | `searchapi` | ✅ (`engine=google_images`) | ✅ (`site:`) | trial credits | <https://www.searchapi.io/docs/google-images> |
+| You.com | `youcom` | ❌ (web-only) | ✅ (`include_domains`) | trial credits | <https://you.com/docs/api-reference/search/v1-search> |
 
 `SearchProviderManager` automatically skips drivers whose `supportsImageSearch()` returns `false` when you call `searchImages()`, so mixing image-capable and web-only drivers in the same priority list is safe.
 
@@ -297,6 +299,56 @@ DUCKDUCKGO_URL=https://html.duckduckgo.com
 - Web search only (`supportsImageSearch() === false`).
 - DuckDuckGo applies anti-bot rate limits to shared/datacenter IPs. Use sparingly. The bundled live test self-skips in CI (`CI=true`) and on 403/429/503 responses.
 
+### SearchAPI.io
+
+Single `GET /api/v1/search` endpoint with an `engine` switch: `google_images` for image search (response `images[]` with `original.link`, `original.{width,height}`, `thumbnail`, `source.link`, `source.name`), `google` for web search (response `organic_results[]` with `link`, `title`, `snippet`, `source`, `thumbnail`). Auth via `Authorization: Bearer`. Site filter appended as `site:<host>` operator to the query.
+
+```env
+SEARCHAPI_API_KEY=your-key
+SEARCHAPI_URL=https://www.searchapi.io
+```
+
+Activate:
+
+```php
+\Padosoft\LaravelAiSearchProviders\Models\SearchProviderConfig::query()->create([
+    'code' => 'searchapi',
+    'name' => 'SearchAPI.io',
+    'driver' => 'searchapi',
+    'base_url' => 'https://www.searchapi.io',
+    'api_key_encrypted' => env('SEARCHAPI_API_KEY'),
+    'config' => ['country' => 'us', 'language' => 'en'],
+    'priority' => 90,
+    'timeout_seconds' => 30,
+    'is_active' => true,
+]);
+```
+
+### You.com
+
+`GET /v1/search` against `https://ydc-index.io` with `X-API-Key` header. Response shape: `results.web[]` (and optionally `results.news[]`) with `title`, `url`, `description`, `snippets[]`, `thumbnail_url`, `page_age`, `favicon_url`. Site filter propagated as `include_domains` (comma-separated). **Web-only** as of 2026-05: You.com does not expose a dedicated image-search endpoint, so `supportsImageSearch()` returns `false` and the manager skips this driver for image queries automatically; `thumbnail_url` is still surfaced per-result for downstream consumers.
+
+```env
+YOUCOM_API_KEY=your-key
+YOUCOM_URL=https://ydc-index.io
+```
+
+Activate:
+
+```php
+\Padosoft\LaravelAiSearchProviders\Models\SearchProviderConfig::query()->create([
+    'code' => 'youcom',
+    'name' => 'You.com',
+    'driver' => 'youcom',
+    'base_url' => 'https://ydc-index.io',
+    'api_key_encrypted' => env('YOUCOM_API_KEY'),
+    'config' => ['country' => 'US', 'safesearch' => 'moderate'],
+    'priority' => 100,
+    'timeout_seconds' => 30,
+    'is_active' => true,
+]);
+```
+
 ### Fake provider
 
 Deterministic, no network. Configure via the `config` JSON column:
@@ -448,7 +500,8 @@ If you're extracting your own search layer onto this package (the way `padosoft/
 - 🔁 Runtime enforcement of `rate_limit_per_minute` (currently advisory).
 - 🧠 Built-in caching adapter (decorator over any driver).
 - 🧬 Perceptual-hash dedupe utility for image results.
-- 🪙 More drivers as the community asks: Serper, SearchAPI.io, Google Custom Search, You.com.
+- 🪙 More drivers as the community asks: Serper.dev, Bing Web Search, Kagi.
+- 🧭 Optional **Vertex AI Search / Agent Search** adapter, shipped as a separate sub-package (e.g. `padosoft/laravel-ai-search-providers-google-vertex`) so consumers that need it pull in the heavier `google/cloud-discoveryengine` SDK only when actually using it. Google Custom Search JSON API was intentionally skipped — it was closed to new customers in 2026 and new Programmable Search Engines can no longer index the full web ([context](https://support.google.com/programmable-search/answer/12397162)).
 
 See `docs/PROGRESS.md` for in-flight work and `docs/LESSON.md` for design notes accumulated during the original extraction.
 

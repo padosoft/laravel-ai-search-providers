@@ -13,8 +13,10 @@ use Padosoft\LaravelAiSearchProviders\Providers\DuckDuckGoSearchProvider;
 use Padosoft\LaravelAiSearchProviders\Providers\ExaSearchProvider;
 use Padosoft\LaravelAiSearchProviders\Providers\FakeSearchProvider;
 use Padosoft\LaravelAiSearchProviders\Providers\FirecrawlSearchProvider;
+use Padosoft\LaravelAiSearchProviders\Providers\SearchApiSearchProvider;
 use Padosoft\LaravelAiSearchProviders\Providers\TavilySearchProvider;
 use Padosoft\LaravelAiSearchProviders\Providers\WebSearchApiSearchProvider;
+use Padosoft\LaravelAiSearchProviders\Providers\YouComSearchProvider;
 use Padosoft\LaravelAiSearchProviders\Repositories\EloquentSearchProviderConfigRepository;
 
 final class LaravelAiSearchProvidersServiceProvider extends ServiceProvider
@@ -80,6 +82,12 @@ final class LaravelAiSearchProvidersServiceProvider extends ServiceProvider
             ),
             'duckduckgo' => new CallableSearchProviderFactory(
                 static fn ($definition): DuckDuckGoSearchProvider => new DuckDuckGoSearchProvider($definition),
+            ),
+            'searchapi' => new CallableSearchProviderFactory(
+                static fn ($definition): SearchApiSearchProvider => new SearchApiSearchProvider($definition),
+            ),
+            'youcom' => new CallableSearchProviderFactory(
+                static fn ($definition): YouComSearchProvider => new YouComSearchProvider($definition),
             ),
         ];
 

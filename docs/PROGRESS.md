@@ -11,7 +11,9 @@ Tracker for the multi-PR effort that extracts the search layer from `padosoft/pr
 | A3 | Manager + Abstract + Fake + factories | `feat/manager-and-abstract` | ✅ merged (PR #3) |
 | A4 | 6 live providers (Brave, Tavily, Exa, Firecrawl, WebSearchAPI, DuckDuckGo) | `feat/providers` | ✅ merged (PR #4) |
 | A5 | Persistence: Eloquent model + migration + repository | `feat/persistence` | ✅ merged (PR #5) |
-| A6 | Community README + live E2E + tag v1.0.0 | `feat/docs-and-live` | 🟡 in progress |
+| A6 | Community README + live E2E + tag v1.0.0 | `feat/docs-and-live` | ✅ merged + released |
+| — | Banner asset + badge URL verification (docs-only patch) | `docs/banner` | ✅ released as v1.0.1 |
+| — | SearchAPI.io + You.com drivers (Google CSE skipped as deprecated) | `feat/searchapi-and-youcom` | 🟡 in progress (target v1.2.0) |
 
 ## Phase B — Re-wire `product-image-discovery` consumer
 

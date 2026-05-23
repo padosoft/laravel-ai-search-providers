@@ -27,6 +27,17 @@ Initial public release. The package extracts the production-hardened search laye
 - Community-grade README with badges, junior-friendly Quick Start, mermaid architecture diagram, per-provider activation snippets, custom-driver extension guide, configuration reference, contributing guide.
 - Apache-2.0 license.
 
+## [1.2.0] — 2026-05-23
+
+### Added
+
+- **`SearchApiSearchProvider`** (driver `searchapi`) — single `GET /api/v1/search` endpoint with `engine=google_images` for image search and `engine=google` for web search. `Authorization: Bearer` auth. Site filter applied as `site:<host>` operator. Parses `images[]` (`original.link`, `original.{width,height}`, `thumbnail`, `source.{link,name}`) and `organic_results[]` (`link`, `title`, `snippet`, `source`, `thumbnail`).
+- **`YouComSearchProvider`** (driver `youcom`) — `GET /v1/search` against `https://ydc-index.io` with `X-API-Key` header. Web-only (`supportsImageSearch() === false`) because You.com does not expose a dedicated image-search endpoint as of 2026-05. Parses `results.web[]` with `title`, `url`, `description`, `snippets[]`, `thumbnail_url`, `page_age`, `favicon_url`. Site filter propagated as `include_domains` (comma-separated). Falls back to the first non-empty `snippets[]` entry when `description` is missing.
+- Service provider registers both factories alongside the previous 7.
+- 11 new unit tests (5 for SearchAPI.io, 6 for You.com) + 2 opt-in live E2E tests. Total package suite now 83 / 232.
+- README provider matrix expanded to 9 drivers; per-provider activation sections added.
+- Roadmap notes the intentional skip of Google Custom Search JSON API (closed to new customers in 2026; new CSE engines can no longer index the full web) and pencils in a Vertex AI Search / Agent Search adapter as a future sub-package.
+
 ## [1.0.1] — 2026-05-23
 
 ### Added
@@ -35,3 +46,4 @@ Initial public release. The package extracts the production-hardened search laye
 
 [1.0.0]: https://github.com/padosoft/laravel-ai-search-providers/releases/tag/v1.0.0
 [1.0.1]: https://github.com/padosoft/laravel-ai-search-providers/releases/tag/v1.0.1
+[1.2.0]: https://github.com/padosoft/laravel-ai-search-providers/releases/tag/v1.2.0
