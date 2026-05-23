@@ -6,7 +6,13 @@ namespace Padosoft\LaravelAiSearchProviders;
 
 use Illuminate\Support\ServiceProvider;
 use Padosoft\LaravelAiSearchProviders\Contracts\SearchProviderFactoryInterface;
+use Padosoft\LaravelAiSearchProviders\Providers\BraveSearchProvider;
+use Padosoft\LaravelAiSearchProviders\Providers\DuckDuckGoSearchProvider;
+use Padosoft\LaravelAiSearchProviders\Providers\ExaSearchProvider;
 use Padosoft\LaravelAiSearchProviders\Providers\FakeSearchProvider;
+use Padosoft\LaravelAiSearchProviders\Providers\FirecrawlSearchProvider;
+use Padosoft\LaravelAiSearchProviders\Providers\TavilySearchProvider;
+use Padosoft\LaravelAiSearchProviders\Providers\WebSearchApiSearchProvider;
 
 final class LaravelAiSearchProvidersServiceProvider extends ServiceProvider
 {
@@ -44,6 +50,24 @@ final class LaravelAiSearchProvidersServiceProvider extends ServiceProvider
         $defaults = [
             'fake' => new CallableSearchProviderFactory(
                 static fn ($definition): FakeSearchProvider => FakeSearchProvider::fromDefinition($definition),
+            ),
+            'brave' => new CallableSearchProviderFactory(
+                static fn ($definition): BraveSearchProvider => new BraveSearchProvider($definition),
+            ),
+            'tavily' => new CallableSearchProviderFactory(
+                static fn ($definition): TavilySearchProvider => new TavilySearchProvider($definition),
+            ),
+            'exa' => new CallableSearchProviderFactory(
+                static fn ($definition): ExaSearchProvider => new ExaSearchProvider($definition),
+            ),
+            'firecrawl' => new CallableSearchProviderFactory(
+                static fn ($definition): FirecrawlSearchProvider => new FirecrawlSearchProvider($definition),
+            ),
+            'websearchapi' => new CallableSearchProviderFactory(
+                static fn ($definition): WebSearchApiSearchProvider => new WebSearchApiSearchProvider($definition),
+            ),
+            'duckduckgo' => new CallableSearchProviderFactory(
+                static fn ($definition): DuckDuckGoSearchProvider => new DuckDuckGoSearchProvider($definition),
             ),
         ];
 

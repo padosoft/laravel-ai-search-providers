@@ -8,8 +8,8 @@ Tracker for the multi-PR effort that extracts the search layer from `padosoft/pr
 |---|---|---|---|
 | A1 | Scaffold package | `feat/scaffold` | ✅ merged (PR #1) |
 | A2 | Contracts + DTOs | `feat/contracts-dtos` | ✅ merged (PR #2) |
-| A3 | Manager + Abstract + Fake + factories | `feat/manager-and-abstract` | 🟡 in progress |
-| A4 | 6 live providers (Brave, Tavily, Exa, Firecrawl, WebSearchAPI, DuckDuckGo) | `feat/providers` | ⬜ pending |
+| A3 | Manager + Abstract + Fake + factories | `feat/manager-and-abstract` | ✅ merged (PR #3) |
+| A4 | 6 live providers (Brave, Tavily, Exa, Firecrawl, WebSearchAPI, DuckDuckGo) | `feat/providers` | 🟡 in progress |
 | A5 | Persistence: Eloquent model + migration + repository | `feat/persistence` | ⬜ pending |
 | A6 | Community README + live E2E + tag v1.0.0 | `feat/docs-and-live` | ⬜ pending |
 
@@ -88,4 +88,15 @@ In progress. Completed sub-tasks:
   - Merges any user-provided factories from `config('ai-search-providers.factories')` on top of the defaults. Accepts closure, callable, FQCN of `SearchProviderFactoryInterface` or already-resolved instance.
 - 11 new unit tests across `tests/Unit/SearchProviderManagerTest.php` (5 scenarios: empty active set, fallback + safe attempts, skip unsupported image search, skip unsupported site filter, raise on missing factory) and `tests/Unit/Providers/FakeSearchProviderTest.php` (6 scenarios).
 
-Gate: `vendor/bin/phpunit --testsuite Unit,Feature,E2E` PASS — 32 tests, 94 assertions.
+Gate: `vendor/bin/phpunit --testsuite Unit,Feature,E2E` PASS — 32 tests, 94 assertions. CI green. Merged as PR #3.
+
+### A4 — Provider implementations
+
+In progress. Completed sub-tasks:
+
+- Moved 6 driver classes from `product-image-discovery/src/Services/Search/` to `src/Providers/`, rewriting namespaces to `Padosoft\LaravelAiSearchProviders\Providers\` and DTO imports to `Padosoft\LaravelAiSearchProviders\Data\{SearchQueryData,SearchResultCollection,SearchProviderDefinition}`. No behavior change.
+  - `BraveSearchProvider`, `TavilySearchProvider`, `ExaSearchProvider`, `FirecrawlSearchProvider`, `WebSearchApiSearchProvider`, `DuckDuckGoSearchProvider`.
+- Moved 6 unit tests + DDG fixture to `tests/Unit/Providers/` with the same namespace/import rewrites.
+- ServiceProvider now registers all 7 driver factories (`fake`, `brave`, `tavily`, `exa`, `firecrawl`, `websearchapi`, `duckduckgo`) as defaults, merged with any user overrides from `config('ai-search-providers.factories')`.
+
+Gate: `vendor/bin/phpunit --testsuite Unit,Feature,E2E` PASS — 59 tests, 162 assertions.
