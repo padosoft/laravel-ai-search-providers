@@ -5,12 +5,28 @@ declare(strict_types=1);
 namespace Padosoft\LaravelAiSearchProviders;
 
 use Illuminate\Support\ServiceProvider;
+use Padosoft\LaravelAiSearchProviders\Contracts\SearchProviderFactoryInterface;
+use Padosoft\LaravelAiSearchProviders\Providers\FakeSearchProvider;
 
 final class LaravelAiSearchProvidersServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/ai-search-providers.php', 'ai-search-providers');
+
+        $this->app->singleton(SearchProviderManager::class, function ($app): SearchProviderManager {
+            $repository = $app->bound(\Padosoft\LaravelAiSearchProviders\Contracts\SearchProviderConfigRepositoryInterface::class)
+                ? $app->make(\Padosoft\LaravelAiSearchProviders\Contracts\SearchProviderConfigRepositoryInterface::class)
+                : new EmptyConfigRepository();
+
+            return new SearchProviderManager(
+                repository: $repository,
+                factories: $this->resolveFactories($app),
+                logger: $app->bound(\Padosoft\LaravelAiSearchProviders\Contracts\SearchEventLoggerInterface::class)
+                    ? $app->make(\Padosoft\LaravelAiSearchProviders\Contracts\SearchEventLoggerInterface::class)
+                    : null,
+            );
+        });
     }
 
     public function boot(): void
@@ -18,6 +34,44 @@ final class LaravelAiSearchProvidersServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/ai-search-providers.php' => $this->configPath('ai-search-providers.php'),
         ], 'ai-search-providers-config');
+    }
+
+    /**
+     * @return array<string, SearchProviderFactoryInterface>
+     */
+    private function resolveFactories($app): array
+    {
+        $defaults = [
+            'fake' => new CallableSearchProviderFactory(
+                static fn ($definition): FakeSearchProvider => FakeSearchProvider::fromDefinition($definition),
+            ),
+        ];
+
+        $overrides = (array) ($app['config']->get('ai-search-providers.factories') ?? []);
+        $merged = $defaults;
+
+        foreach ($overrides as $driver => $factory) {
+            if ($factory instanceof SearchProviderFactoryInterface) {
+                $merged[$driver] = $factory;
+                continue;
+            }
+
+            if (is_string($factory) && class_exists($factory)) {
+                $instance = $app->make($factory);
+
+                if ($instance instanceof SearchProviderFactoryInterface) {
+                    $merged[$driver] = $instance;
+                }
+
+                continue;
+            }
+
+            if (is_callable($factory) || $factory instanceof \Closure) {
+                $merged[$driver] = new CallableSearchProviderFactory(\Closure::fromCallable($factory));
+            }
+        }
+
+        return $merged;
     }
 
     private function configPath(string $file): string
