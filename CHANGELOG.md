@@ -27,6 +27,13 @@ Initial public release. The package extracts the production-hardened search laye
 - Community-grade README with badges, junior-friendly Quick Start, mermaid architecture diagram, per-provider activation snippets, custom-driver extension guide, configuration reference, contributing guide.
 - Apache-2.0 license.
 
+## [1.2.1] — 2026-05-23
+
+### Changed
+
+- README copy alignment with the v1.2.0 driver count: the tagline ("9 providers. 1 interface. 0 boilerplate.") and the lead Features bullet ("9 providers out of the box — …") now match the provider matrix and the `SUPPORTED PROVIDERS` section. The lead sentence credits all eight live drivers explicitly (was missing SearchAPI.io and You.com).
+- Roadmap entry added to rerender the community banner artwork — the current PNG, baked at v1.0.0, still reads "7 providers".
+
 ## [1.2.0] — 2026-05-23
 
 ### Added
@@ -47,3 +54,4 @@ Initial public release. The package extracts the production-hardened search laye
 [1.0.0]: https://github.com/padosoft/laravel-ai-search-providers/releases/tag/v1.0.0
 [1.0.1]: https://github.com/padosoft/laravel-ai-search-providers/releases/tag/v1.0.1
 [1.2.0]: https://github.com/padosoft/laravel-ai-search-providers/releases/tag/v1.2.0
+[1.2.1]: https://github.com/padosoft/laravel-ai-search-providers/releases/tag/v1.2.1
