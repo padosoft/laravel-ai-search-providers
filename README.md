@@ -1,5 +1,7 @@
 # Laravel AI Search Providers
 
+[Official documentation](https://doc.laravel-ai-search-providers.padosoft.com)
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/padosoft/laravel-ai-search-providers.svg?style=flat-square)](https://packagist.org/packages/padosoft/laravel-ai-search-providers)
 [![Total Downloads](https://img.shields.io/packagist/dt/padosoft/laravel-ai-search-providers.svg?style=flat-square)](https://packagist.org/packages/padosoft/laravel-ai-search-providers)
 [![PHP](https://img.shields.io/badge/PHP-8.3%2B-777bb4.svg?style=flat-square)](https://www.php.net/)

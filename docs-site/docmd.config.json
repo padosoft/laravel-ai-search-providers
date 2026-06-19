@@ -1,0 +1,161 @@
+{
+  "title": "laravel-ai-search-providers",
+  "description": "Laravel-native AI search provider abstraction for Brave, Tavily, Exa, Firecrawl, WebSearchAPI, DuckDuckGo, SearchAPI.io, You.com, and tests.",
+  "url": "https://doc.laravel-ai-search-providers.padosoft.com",
+  "src": "docs-site",
+  "out": "_site",
+  "base": "/",
+  "favicon": "/assets/favicon.svg",
+  "theme": {
+    "name": "default",
+    "appearance": "system",
+    "codeHighlight": true,
+    "customCss": ["/assets/custom.css"],
+    "colors": {
+      "primary": "#0d9488"
+    }
+  },
+  "copyCode": true,
+  "pageNavigation": true,
+  "minify": true,
+  "layout": {
+    "spa": true,
+    "header": {
+      "enabled": true
+    },
+    "sidebar": {
+      "enabled": true,
+      "collapsible": true,
+      "defaultCollapsed": false,
+      "position": "left"
+    },
+    "optionsMenu": {
+      "position": "header",
+      "components": {
+        "search": true,
+        "themeSwitch": true
+      }
+    },
+    "footer": {
+      "style": "minimal",
+      "content": "Apache-2.0 documentation for padosoft/laravel-ai-search-providers.",
+      "branding": true
+    }
+  },
+  "footer": {
+    "style": "minimal",
+    "content": "Apache-2.0 documentation for padosoft/laravel-ai-search-providers.",
+    "branding": true
+  },
+  "navigation": [
+    { "title": "Overview", "path": "/", "icon": "home" },
+    {
+      "title": "Get Started",
+      "icon": "rocket",
+      "children": [
+        { "title": "Quickstart", "path": "/get-started/quickstart", "icon": "play" },
+        { "title": "Installation", "path": "/get-started/installation", "icon": "download" },
+        { "title": "Configuration", "path": "/get-started/configuration", "icon": "settings" }
+      ]
+    },
+    {
+      "title": "Guides",
+      "icon": "book-open",
+      "children": [
+        { "title": "Provider Setup", "path": "/guides/provider-setup", "icon": "plug" },
+        { "title": "Image Search", "path": "/guides/image-search", "icon": "image" },
+        { "title": "Web Search", "path": "/guides/web-search", "icon": "search" },
+        { "title": "Testing", "path": "/guides/testing", "icon": "test-tube" },
+        { "title": "Extending Drivers", "path": "/guides/extending-drivers", "icon": "wrench" },
+        { "title": "Worked Example", "path": "/guides/worked-example", "icon": "list-checks" }
+      ]
+    },
+    {
+      "title": "Concetti & Teoria",
+      "icon": "brain",
+      "children": [
+        { "title": "Motivazione", "path": "/concetti/motivazione", "icon": "target" },
+        { "title": "Teoria", "path": "/concetti/teoria", "icon": "sigma" },
+        { "title": "Provider Model", "path": "/concetti/provider-model", "icon": "layers" },
+        { "title": "Ranking & Fallback", "path": "/concetti/ranking-fallback", "icon": "route" }
+      ]
+    },
+    {
+      "title": "Architettura",
+      "icon": "network",
+      "children": [
+        { "title": "Overview", "path": "/architecture/overview", "icon": "boxes" },
+        { "title": "Pipeline Workflow", "path": "/architecture/pipeline-workflow", "icon": "workflow" },
+        { "title": "Data Model & Contract", "path": "/architecture/data-model-contract", "icon": "database" },
+        { "title": "Design", "path": "/architecture/design", "icon": "drafting-compass" },
+        { "title": "ADR", "path": "/architecture/adr", "icon": "file-check" }
+      ]
+    },
+    {
+      "title": "Best Practices",
+      "icon": "shield-check",
+      "children": [
+        { "title": "Secrets & Safety", "path": "/best-practices/secrets-safety", "icon": "lock" },
+        { "title": "Provider Selection", "path": "/best-practices/provider-selection", "icon": "sliders-horizontal" },
+        { "title": "Gotchas & Limits", "path": "/best-practices/gotchas-limits", "icon": "triangle-alert" }
+      ]
+    },
+    {
+      "title": "Operations",
+      "icon": "activity",
+      "children": [
+        { "title": "Runbook", "path": "/operations/runbook", "icon": "clipboard-list" },
+        { "title": "Observability", "path": "/operations/observability", "icon": "chart-line" },
+        { "title": "Release Checklist", "path": "/operations/release-checklist", "icon": "ship" }
+      ]
+    },
+    {
+      "title": "Reference",
+      "icon": "braces",
+      "children": [
+        { "title": "CLI", "path": "/reference/cli", "icon": "terminal" },
+        { "title": "API", "path": "/reference/api", "icon": "code" },
+        { "title": "Configuration API", "path": "/reference/configuration-api", "icon": "file-cog" },
+        { "title": "Providers", "path": "/reference/providers", "icon": "server" },
+        { "title": "Contracts", "path": "/reference/contracts", "icon": "scroll-text" }
+      ]
+    }
+  ],
+  "plugins": {
+    "search": {
+      "semantic": true,
+      "model": "Xenova/all-MiniLM-L6-v2",
+      "include": ["**/*.md"],
+      "exclude": ["**/node_modules/**"],
+      "showConfidence": false,
+      "showFilters": true
+    },
+    "git": {
+      "repo": "https://github.com/padosoft/laravel-ai-search-providers",
+      "branch": "main",
+      "editLink": true,
+      "lastUpdated": true,
+      "commitHistory": true,
+      "maxCommits": 5,
+      "dateFormat": "relative"
+    },
+    "seo": {
+      "titleTemplate": "%s | laravel-ai-search-providers",
+      "description": "Laravel-native AI search provider abstraction.",
+      "canonical": true
+    },
+    "sitemap": {
+      "url": "https://doc.laravel-ai-search-providers.padosoft.com"
+    },
+    "mermaid": {
+      "theme": "default"
+    },
+    "math": {
+      "katex": {}
+    },
+    "llms": {
+      "enabled": true
+    },
+    "analytics": false
+  }
+}

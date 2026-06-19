@@ -1,0 +1,19 @@
+:root {
+  --docmd-accent: #0d9488;
+  --docmd-accent-soft: rgba(13, 148, 136, 0.12);
+}
+
+a,
+.nav-item.active,
+.page-nav a:hover {
+  color: var(--docmd-accent);
+}
+
+.callout.tip,
+.callout.success {
+  border-color: var(--docmd-accent);
+}
+
+code {
+  border-radius: 4px;
+}
