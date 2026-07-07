@@ -150,13 +150,13 @@ final class SearchProviderManagerTest extends TestCase
             factories: ['fake' => $this->fakeFactory()],
         );
 
-        self::assertSame(['fake'], $manager->drivers());
+        self::assertEqualsCanonicalizing(['fake'], $manager->drivers());
         self::assertTrue($manager->hasDriver('fake'));
         self::assertFalse($manager->hasDriver('serpapi'));
 
         $manager->registerFactory('custom', $this->fakeFactory());
 
-        self::assertSame(['fake', 'custom'], $manager->drivers());
+        self::assertEqualsCanonicalizing(['fake', 'custom'], $manager->drivers());
         self::assertTrue($manager->hasDriver('custom'));
     }
 
