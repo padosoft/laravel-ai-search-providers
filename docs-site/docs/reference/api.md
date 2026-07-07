@@ -11,7 +11,11 @@ description: Runtime PHP API reference.
 public function searchImages(SearchQueryData $query): SearchProviderExecutionResult;
 public function searchWeb(SearchQueryData $query): SearchProviderExecutionResult;
 public function registerFactory(string $driver, SearchProviderFactoryInterface $factory): self;
+public function drivers(): array;
+public function hasDriver(string $driver): bool;
 ```
+
+`drivers()` returns the registered driver names; `hasDriver()` checks a single driver. Use them to validate provider configurations against the real driver registry instead of hardcoding driver lists.
 
 ## `SearchQueryData`
 

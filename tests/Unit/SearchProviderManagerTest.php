@@ -143,6 +143,23 @@ final class SearchProviderManagerTest extends TestCase
         self::assertStringContainsString('this-driver-is-not-registered', $execution->attempts[0]['error']);
     }
 
+    public function test_it_exposes_registered_drivers(): void
+    {
+        $manager = new SearchProviderManager(
+            repository: new InMemorySearchProviderConfigRepository([]),
+            factories: ['fake' => $this->fakeFactory()],
+        );
+
+        self::assertSame(['fake'], $manager->drivers());
+        self::assertTrue($manager->hasDriver('fake'));
+        self::assertFalse($manager->hasDriver('serpapi'));
+
+        $manager->registerFactory('custom', $this->fakeFactory());
+
+        self::assertSame(['fake', 'custom'], $manager->drivers());
+        self::assertTrue($manager->hasDriver('custom'));
+    }
+
     private function fakeFactory(): CallableSearchProviderFactory
     {
         return new CallableSearchProviderFactory(
