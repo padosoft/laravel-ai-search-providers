@@ -44,6 +44,21 @@ final class SearchProviderManager
         return $this;
     }
 
+    /**
+     * Registered driver names, e.g. for validating provider configurations.
+     *
+     * @return array<int, string>
+     */
+    public function drivers(): array
+    {
+        return array_keys($this->factories);
+    }
+
+    public function hasDriver(string $driver): bool
+    {
+        return isset($this->factories[$driver]);
+    }
+
     public function searchImages(SearchQueryData $query): SearchProviderExecutionResult
     {
         return $this->execute('searchImages', $query);
