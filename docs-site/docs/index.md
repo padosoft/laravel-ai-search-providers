@@ -251,10 +251,11 @@ flowchart LR
 
 ## Batteries included for AI-assisted development
 
-This repo ships **AI batteries** — an invocable `.claude/skills/docmd-docs` skill plus `.claude/rules`
+The git repository ships **AI batteries** — an invocable `.claude/skills/docmd-docs` skill plus `.claude/rules`
 encoding the docs-sync discipline (Markdown-only, nav-complete, `npm run check` + `npm run build`
-before commit). Open the package in Claude Code, Cursor, Copilot or Codex and your agent already knows
-the house rules for keeping this docs site honest.
+in `docs-site/` before commit). Clone the repo and open it in Claude Code, Cursor, Copilot or Codex and your agent already knows
+the house rules for keeping this docs site honest. These files stay in the repository only: they are `export-ignore`d,
+so Composer installs never carry them.
 
 ---
 

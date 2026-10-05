@@ -2,6 +2,18 @@
 
 All notable changes to `padosoft/laravel-ai-search-providers` are documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] — 2026-10-05
+
+### Security
+
+- Docs tooling no longer ships in Composer dist installs. A new `.gitattributes` marks `docs-site/`, `docs/`, `tests/`, `.github/`, `.claude/`, the README banner and the dev config files as `export-ignore`. `vendor/padosoft/laravel-ai-search-providers` now contains only the runtime package, so scanners such as Trivy no longer flag Node lockfiles in it (reported in #15).
+- Bumped the docs-site dependencies `adm-zip`, `sharp` (via `@huggingface/transformers` 4.3) and `onnxruntime-node` 1.30, clearing the HIGH advisories on adm-zip 0.5.17 and sharp 0.34.5 (#15).
+
+### Changed
+
+- The docs tooling now has a single `package.json`, in `docs-site/`. The duplicate root `package.json`, `package-lock.json`, `scripts/`, `assets/`, `.docmd-search/` and `.node-version` are gone: they built the wrong source folder and scanned `node_modules`. Run `npm run check` and `npm run build` from `docs-site/`.
+- `docs-site/scripts/check-no-raw-html.mjs` now rejects any raw HTML tag and `::: button` container outside code samples.
+
 ## [1.0.0] — 2026-05-23
 
 Initial public release. The package extracts the production-hardened search layer from [`padosoft/product-image-discovery`](https://github.com/padosoft/product-image-discovery) into a standalone Laravel composer package.

@@ -1,0 +1,13 @@
+# Keep the Composer dist archive limited to the runtime package
+# (src/, config/, database/, composer.json, README.md, LICENSE, CHANGELOG.md).
+# Docs tooling, CI, tests and repo-only assets never reach vendor/.
+/.claude export-ignore
+/.github export-ignore
+/docs export-ignore
+/docs-site export-ignore
+/resources/laravel-ai-search-providers-banner.png export-ignore
+/tests export-ignore
+/.env.example export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/phpunit.xml.dist export-ignore
